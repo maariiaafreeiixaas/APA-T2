@@ -69,10 +69,136 @@ comprobarse las siguientes condiciones:
 Inserte a continuación una captura de pantalla que muestre el resultado de ejecutar el fichero `primos.py` con la opción
 *verbosa*, de manera que se muestre el resultado de la ejecución de los tests unitarios.
 
+![alt text](image.png)
+
 #### Código desarrollado
 
 Inserte a continuación el contenido del fichero `primos.py` usando los comandos necesarios para que se realice el
 realce sintáctico en Python del mismo.
+
+'''python
+"""
+Maria Freixas Solé
+Módulo que define funciones con números primos
+
+>>> esPrimo(4)
+False
+
+>>> esPrimo(-2)
+True
+
+>>> esPrimo(-4)
+False
+"""
+
+def esPrimo(numero):
+    """"
+    esPrimo retornará True si el número introducido
+    solo es divisible por él mismo y uno, o False en caso contrario.
+    Para ello, recorre desde 2 hasta numero-1, si es divisible por prova significa que tiene
+    un divisor distinto de 1 y él mismo (NO PRIMO).
+
+    >>> esPrimo(1023)
+    False
+
+    >>> esPrimo(1021)
+    True
+    """
+    for prova in range(2, numero): #range va del primero al postúltimo
+        if numero % prova == 0:
+            return False
+    
+    return True
+
+
+def primos(numero):
+    """
+    primos retornará una tupla con todos los numeros primos menores que el número introducido.
+    Para ello, se crea una lista vacía que recorre de 2 hasta numero-1. 
+    Verificamos con esPrimo() y se añaden los primos a la lista.
+
+    >>> primos(50)
+    (2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47)
+    """
+    return tuple(n for n in range(2, numero) if esPrimo(n))
+
+
+def descompon(numero):
+    """
+    descompon devuelve una tupla con la descomposición en factores primos del número introducido.
+    Para ello, se prueba con todos los números primos menores o iguales al número, si uno es divisor del número dado, 
+    se almacena y se divide el número repetidamente.
+
+    >>> descompon(36 * 175 * 143)
+    (2, 2, 3, 3, 5, 5, 7, 11, 13)
+    """
+    factores = []
+    divisor = 2
+    while numero > 1:
+        while numero % divisor == 0:
+            factores.append(divisor)
+            numero //= divisor
+        divisor += 1
+    return tuple(factores)
+
+def mcm(numero1, numero2):
+    """
+    mcm devuelve el mínimo común múltiplo de dos números.
+    Para ello utilizaremos la función descompon hecha previamente para agilizar el trabajo,
+    se toma la mayor potencia de cada factor primo y multiplica los factores seleccionados para obtener el MCM.
+
+    >>> mcm(90, 14) 
+    630
+    """
+    factores1 = descompon(numero1)
+    factores2 = descompon(numero2)
+    factores_comunes = list(set(factores1) | set(factores2))
+    resultado = 1
+    for factor in factores_comunes:
+        resultado *= factor ** max(factores1.count(factor), factores2.count(factor))
+    return resultado
+
+def mcd(numero1, numero2):
+    """
+    mcd devuelve el máximo común divisor de dos números.
+    Para ello utilizaremos la función descompon definida previamente para agilizar el trabajo,
+    se toma los factores comunes con menor exponente y multiplica los factores seleccionados para obtener el MCD.
+
+    >>> mcd(924, 780)
+    12
+    """
+    factores1 = descompon(numero1)
+    factores2 = descompon(numero2)
+    factores_comunes = list(set(factores1) & set(factores2))
+    resultado = 1
+    for factor in factores_comunes:
+        resultado *= factor ** min(factores1.count(factor), factores2.count(factor))
+    return resultado
+
+def mcmN(*numeros):
+    """
+    mcmN devuelve el mínimo común múltiplo de una lista de números.
+    Se usa mcm() de dos números en forma iterativa para todos los valores en la lista.
+
+    >>> mcmN(42, 60, 70, 63)
+    1260
+    """
+    return reduce(mcm, numeros)
+
+def mcdN(*numeros):
+    """
+    mcdN devuelve el máximo común divisor de una lista de números.
+    Se usa mcd() de dos números en forma iterativa para todos los valores en la lista.
+
+    >>> mcdN(840, 630, 1050, 1470)
+    210
+    """
+    return reduce(mcd, numeros)
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+'''
 
 #### Subida del resultado al repositorio GitHub ¿y *pull-request*?
 
