@@ -69,14 +69,25 @@ comprobarse las siguientes condiciones:
 Inserte a continuación una captura de pantalla que muestre el resultado de ejecutar el fichero `primos.py` con la opción
 *verbosa*, de manera que se muestre el resultado de la ejecución de los tests unitarios.
 
-
+![alt text](image.png)
 
 #### Código desarrollado
 
 Inserte a continuación el contenido del fichero `primos.py` usando los comandos necesarios para que se realice el
 realce sintáctico en Python del mismo.
 
-'''python
+**HE TENIDO MUCHOS PROBLEMAS CON EL FICHERO primos.py, YA QUE NO ME LO DEJABA ACTUALIZAR PORQUE NO TENIA PERMISOS Y POR TANTO CUANDO LO CUELGO EN GIT SALE LA PRIMERA MODIFICACIÓN QUE HICE EN CLASE EL DIA 13-03.**
+
+**HE ESTADO INTENTANDO SOLUCIONARLO VIA BASH PERO ME FALTAN CONOCIMIENTOS PARA PODER LLEVARLO A CARGO, INCLUSO ME AYUDADO CON EL CHATGPT PERO LAS SOLUCIONES QUE ME DABA NO ME SERVIAN**
+
+**ES POR ESO QUE HE COLGADO EL TEST SOLO ME SALE DE LA PRIMERA FUNCIÓN**
+
+**TE ADJUNTO LA IMAGEN DEL CODIGO QUE NO ME DEJA GUARDAR**
+
+![alt text](fallo.png)
+
+````python
+
 """
 Maria Freixas Solé
 Módulo que define funciones con números primos
@@ -183,7 +194,13 @@ def mcmN(*numeros):
     >>> mcmN(42, 60, 70, 63)
     1260
     """
-    return reduce(mcm, numeros)
+    if not numeros:
+        return 1
+    resultado = numeros[0]
+    for numero in numeros[1:]:
+        resultado = mcm(resultado, numero)
+    return resultado
+
 
 def mcdN(*numeros):
     """
@@ -193,12 +210,17 @@ def mcdN(*numeros):
     >>> mcdN(840, 630, 1050, 1470)
     210
     """
-    return reduce(mcd, numeros)
+    if not numeros:
+        return 1
+    resultado = numeros[0]
+    for numero in numeros[1:]:
+        resultado = mcd(resultado, numero)
+    return resultado
 
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-'''
+```
 
 #### Subida del resultado al repositorio GitHub ¿y *pull-request*?
 
